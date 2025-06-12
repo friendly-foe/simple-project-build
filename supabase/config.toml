@@ -1,1 +1,11 @@
+
 project_id = "aydufunbtppivgbwkzwq"
+
+[functions.analyze-resume]
+verify_jwt = true
+
+[functions.generate-career-path]
+verify_jwt = true
+
+[functions.search-jobs]
+verify_jwt = true
