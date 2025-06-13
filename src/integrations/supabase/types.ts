@@ -9,7 +9,168 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      career_paths: {
+        Row: {
+          ai_recommendations: Json | null
+          created_at: string | null
+          current_role_title: string
+          id: string
+          learning_resources: Json | null
+          milestones: Json | null
+          required_skills: string[] | null
+          target_role_title: string
+          timeline_months: number
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          ai_recommendations?: Json | null
+          created_at?: string | null
+          current_role_title: string
+          id?: string
+          learning_resources?: Json | null
+          milestones?: Json | null
+          required_skills?: string[] | null
+          target_role_title: string
+          timeline_months: number
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          ai_recommendations?: Json | null
+          created_at?: string | null
+          current_role_title?: string
+          id?: string
+          learning_resources?: Json | null
+          milestones?: Json | null
+          required_skills?: string[] | null
+          target_role_title?: string
+          timeline_months?: number
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      job_matches: {
+        Row: {
+          company: string | null
+          created_at: string | null
+          id: string
+          job_description: string | null
+          job_title: string
+          job_url: string | null
+          location: string | null
+          match_reasons: string[] | null
+          match_score: number | null
+          salary_range: string | null
+          status: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string | null
+          id?: string
+          job_description?: string | null
+          job_title: string
+          job_url?: string | null
+          location?: string | null
+          match_reasons?: string[] | null
+          match_score?: number | null
+          salary_range?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string | null
+          id?: string
+          job_description?: string | null
+          job_title?: string
+          job_url?: string | null
+          location?: string | null
+          match_reasons?: string[] | null
+          match_score?: number | null
+          salary_range?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          full_name: string | null
+          github_url: string | null
+          id: string
+          linkedin_url: string | null
+          location: string | null
+          phone: string | null
+          portfolio_url: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          full_name?: string | null
+          github_url?: string | null
+          id?: string
+          linkedin_url?: string | null
+          location?: string | null
+          phone?: string | null
+          portfolio_url?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          full_name?: string | null
+          github_url?: string | null
+          id?: string
+          linkedin_url?: string | null
+          location?: string | null
+          phone?: string | null
+          portfolio_url?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      resumes: {
+        Row: {
+          ai_analysis: Json | null
+          content: string
+          created_at: string | null
+          id: string
+          skills_extracted: string[] | null
+          title: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          ai_analysis?: Json | null
+          content: string
+          created_at?: string | null
+          id?: string
+          skills_extracted?: string[] | null
+          title: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          ai_analysis?: Json | null
+          content?: string
+          created_at?: string | null
+          id?: string
+          skills_extracted?: string[] | null
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

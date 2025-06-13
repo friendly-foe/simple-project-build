@@ -46,13 +46,13 @@ const CareerPathBuilder = ({ user }: CareerPathBuilderProps) => {
 
       setCareerPath(data);
       
-      // Save to database
+      // Save to database using correct column names
       await supabase
         .from('career_paths')
         .insert({
           user_id: user.id,
-          current_role: currentRole,
-          target_role: targetRole,
+          current_role_title: currentRole,
+          target_role_title: targetRole,
           timeline_months: parseInt(timeline),
           required_skills: data.skills || [],
           learning_resources: data.resources || {},
