@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Upload, FileText, Loader2, Download } from 'lucide-react';
+import mammoth from 'mammoth';
 
 interface ResumeUploadProps {
   user: User;
@@ -29,18 +30,37 @@ const ResumeUpload = ({ user }: ResumeUploadProps) => {
 
     setIsUploading(true);
     try {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const text = event.target?.result as string;
-        setContent(text);
+      const extension = file.name.split('.').pop()?.toLowerCase();
+
+      if (extension === 'txt') {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const text = event.target?.result as string;
+          setContent(text);
+          setTitle(file.name.replace(/\.[^/.]+$/, ""));
+        };
+        reader.readAsText(file);
+      } else if (extension === 'docx') {
+        // Read docx as ArrayBuffer and convert to text using mammoth
+        const arrayBuffer = await file.arrayBuffer();
+        const { value } = await mammoth.extractRawText({ arrayBuffer });
+        setContent(value);
         setTitle(file.name.replace(/\.[^/.]+$/, ""));
-      };
-      reader.readAsText(file);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Unsupported File Type",
+          description:
+            "Only .txt and .docx files are supported for resume upload. Please convert your resume to one of these formats.",
+        });
+        setContent('');
+        setTitle('');
+      }
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to read file",
+        description: "Failed to read file. Please ensure it's a valid .txt or .docx file.",
       });
     } finally {
       setIsUploading(false);
