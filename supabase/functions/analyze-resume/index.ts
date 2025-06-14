@@ -1,4 +1,3 @@
-
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
@@ -30,7 +29,9 @@ serve(async (req) => {
     2. Extract all technical and soft skills mentioned
     3. Suggest 5 specific improvements to make the resume more attractive to employers
     4. Estimate years of experience based on the content
-    
+    5. Give an overall resume score between 0 (worst) and 100 (best), based on structure, clarity, and marketability
+    6. Provide the single most impactful improvement suggestion for increasing the score by at least 10 points if possible
+
     Resume content:
     ${content}
     
@@ -40,7 +41,9 @@ serve(async (req) => {
       "skills": ["skill1", "skill2", ...],
       "suggestions": ["improvement1", "improvement2", ...],
       "experienceYears": number,
-      "keyStrengths": ["strength1", "strength2", ...]
+      "keyStrengths": ["strength1", "strength2", ...],
+      "resumeScore": 82,
+      "topImprovement": "The single best change the candidate should make to most rapidly improve their resume score."
     }
     `;
 
@@ -84,6 +87,9 @@ serve(async (req) => {
     if (jsonMatch) {
       try {
         analysis = JSON.parse(jsonMatch[0]);
+        // Ensure new keys exist or provide defaults for resilience
+        analysis.resumeScore = typeof analysis.resumeScore === 'number' ? analysis.resumeScore : null;
+        analysis.topImprovement = analysis.topImprovement || (Array.isArray(analysis.suggestions) ? analysis.suggestions[0] : "Add more details about your achievements.");
         console.log('Successfully parsed JSON analysis');
       } catch (parseError) {
         console.error('JSON parsing failed:', parseError);
@@ -99,7 +105,9 @@ serve(async (req) => {
             "Include relevant certifications and training"
           ],
           experienceYears: 3,
-          keyStrengths: ["Technical expertise", "Team collaboration", "Adaptability"]
+          keyStrengths: ["Technical expertise", "Team collaboration", "Adaptability"],
+          resumeScore: 70,
+          topImprovement: "Add quantifiable achievements with specific metrics."
         };
       }
     } else {
@@ -116,7 +124,9 @@ serve(async (req) => {
           "Add a compelling summary section"
         ],
         experienceYears: 2,
-        keyStrengths: ["Adaptability", "Learning ability"]
+        keyStrengths: ["Adaptability", "Learning ability"],
+        resumeScore: 60,
+        topImprovement: "Add more specific details about your achievements."
       };
     }
 

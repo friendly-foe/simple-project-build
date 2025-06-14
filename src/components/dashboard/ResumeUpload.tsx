@@ -1,4 +1,3 @@
-
 import { useState, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { User } from '@supabase/supabase-js';
@@ -200,7 +199,30 @@ const ResumeUpload = ({ user }: ResumeUploadProps) => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className="space-y-6">
+              {"resumeScore" in analysis && typeof analysis.resumeScore === "number" && (
+                <div>
+                  <h4 className="font-semibold mb-2">Resume Score</h4>
+                  <div className="flex items-center space-x-2">
+                    <span className={`text-2xl font-bold ${analysis.resumeScore >= 80 ? "text-green-600" : analysis.resumeScore >= 60 ? "text-yellow-600" : "text-red-600"}`}>
+                      {analysis.resumeScore}/100
+                    </span>
+                  </div>
+                  <div className="text-xs text-gray-500 italic">
+                    Score reflects overall resume quality, structure, and marketability.
+                  </div>
+                </div>
+              )}
+
+              {"topImprovement" in analysis && analysis.topImprovement && (
+                <div>
+                  <h4 className="font-semibold mb-2">#1 Improvement Suggestion</h4>
+                  <div className="bg-yellow-100 border border-yellow-300 rounded px-3 py-2 text-yellow-900">
+                    {analysis.topImprovement}
+                  </div>
+                </div>
+              )}
+
               {analysis.summary && (
                 <div>
                   <h4 className="font-semibold mb-2">Summary</h4>
