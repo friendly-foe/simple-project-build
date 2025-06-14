@@ -7,6 +7,12 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+function createLinkedInSearchUrl(title: string, location: string) {
+  const titleEncoded = encodeURIComponent(title || '');
+  const locationEncoded = encodeURIComponent(location || '');
+  return `https://www.linkedin.com/jobs/search/?keywords=${titleEncoded}&location=${locationEncoded}`;
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -91,7 +97,7 @@ serve(async (req) => {
               description: 'Join our team and work on exciting projects with cutting-edge technology.',
               matchScore: 75,
               matchReasons: ['Matches your search query', 'Good growth opportunities', 'Competitive salary'],
-              url: 'https://example.com/job1'
+              url: ''
             }
           ]
         };
@@ -107,11 +113,28 @@ serve(async (req) => {
             description: 'Exciting opportunity to grow your career in a dynamic environment.',
             matchScore: 70,
             matchReasons: ['Relevant to your search', 'Remote flexibility'],
-            url: 'https://example.com/job'
+            url: ''
           }
         ]
       };
     }
+
+    // Ensure every job has a LinkedIn (or at least useful) "View Job" URL
+    jobs.jobs = jobs.jobs.map((job: any) => {
+      let jobUrl = job.url || "";
+      // If missing or placeholder, generate.
+      if (
+        !jobUrl ||
+        typeof jobUrl !== "string" ||
+        jobUrl.includes("example.com")
+      ) {
+        jobUrl = createLinkedInSearchUrl(job.title, job.location);
+      }
+      return {
+        ...job,
+        url: jobUrl
+      };
+    });
 
     return new Response(JSON.stringify(jobs), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
